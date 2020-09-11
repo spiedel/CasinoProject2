@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "bets")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Bet {
+public abstract class Bet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
