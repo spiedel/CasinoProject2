@@ -30,7 +30,8 @@ public class ColourBet extends Bet {
     }
 
 
-    public boolean isBetSuccessful(RouletteSetUp rouletteValue) {
+    @Override
+    public Boolean isBetSuccessful(RouletteSetUp rouletteValue) {
         if (rouletteValue.getColour().equals(colourBetOn)){
             return true;
         } else

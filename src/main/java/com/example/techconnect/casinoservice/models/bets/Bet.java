@@ -1,5 +1,6 @@
 package com.example.techconnect.casinoservice.models.bets;
 
+import com.example.techconnect.casinoservice.enums.RouletteSetUp;
 import com.example.techconnect.casinoservice.models.Player;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -8,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "bets")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class Bet {
+public class Bet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +31,12 @@ public abstract class Bet {
     public Bet() {
     }
 
+    //methods
+    public Boolean isBetSuccessful(RouletteSetUp rouletteValue) {
+        return null;
+    }
+
+    //getters + setters
     public Long getId() {
         return id;
     }

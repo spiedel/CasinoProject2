@@ -1,2 +1,4 @@
-package com.example.techconnect.casinoservice.controllers;public class RouletteController {
+package com.example.techconnect.casinoservice.controllers;
+
+public class RouletteController {
 }
