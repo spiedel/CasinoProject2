@@ -1,6 +1,7 @@
 package com.example.techconnect.casinoservice.controllers;
 
 import com.example.techconnect.casinoservice.models.Player;
+import com.example.techconnect.casinoservice.repositories.GameRepository;
 import com.example.techconnect.casinoservice.repositories.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,12 +17,28 @@ public class PlayerController {
     @Autowired
     PlayerRepository playerRepository;
 
+    @Autowired
+    GameRepository gameRepository;
 
     //INDEX all players
     @GetMapping(value = "/players")
     public ResponseEntity<List<Player>> getAllPlayers() {
         return new ResponseEntity<>(playerRepository.findAll(), HttpStatus.OK);
     }
+
+    //INDEX all players in roulette game
+    @GetMapping(value="/roulette/{id}/players/")
+    public ResponseEntity getAllPlayersByGameId(@PathVariable Long id) {
+        if(gameRepository.findById(id).isPresent()){
+        List<Player> foundPlayers = playerRepository.findAllPlayersByGameId(id);
+        if (!foundPlayers.isEmpty()) {
+            return new ResponseEntity(foundPlayers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity("No players in this game.", HttpStatus.OK);
+        }}
+        return new ResponseEntity("This game does not exist.", HttpStatus.NOT_FOUND);
+    }
+
 
     //SHOW one player
     @GetMapping(value = "/players/{id}")
@@ -40,4 +57,6 @@ public class PlayerController {
         playerRepository.save(player);
         return new ResponseEntity<>(player, HttpStatus.CREATED);
     }
+
+
 }
