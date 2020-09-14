@@ -29,11 +29,20 @@ public class DataLoader implements ApplicationRunner {
         Player player1 = new Player("Colin", 30, 100);
         playerRepository.save(player1);
 
+        Player player2 = new Player("Imogen", 20, 100);
+        playerRepository.save(player2);
+
+        Player player3 = new Player("Bob", 50, 100);
+        playerRepository.save(player3);
+
         Game roulette = new Game("Roulette");
         gameRepository.save(roulette);
 
         player1.setGame(roulette);
         playerRepository.save(player1);
+
+        player3.setGame(roulette);
+        playerRepository.save(player3);
 
         //Bet bet1 = new Bet(20, player1);
         //betRepository.save(bet1);

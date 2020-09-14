@@ -40,4 +40,5 @@ public class RouletteController {
         gameRepository.save(game);
         return new ResponseEntity<>(game, HttpStatus.CREATED);
     }
+
 }

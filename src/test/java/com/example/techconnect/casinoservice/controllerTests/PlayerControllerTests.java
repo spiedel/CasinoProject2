@@ -17,11 +17,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -69,4 +70,54 @@ public class PlayerControllerTests {
         Player foundPlayer = playerRepository.findById(playerId).get();
         assertEquals("John", foundPlayer.getName());
     }
+
+    @Test
+    public void canAddPlayerToGame(){
+        testRestTemplate.put("/players/2/add",1L);
+        Player player = playerRepository.getOne(2L);
+        Long gameId = player.getGame().getId();
+        assertEquals(1, gameId, 0.0);
+    }
+
+    @Test
+    public void cantAddPlayerIfGameDoesntExist(){
+        testRestTemplate.put("/players/2/add",2L);
+//        Player player = playerRepository.getOne(2L);
+//        Long gameId = player.getGame().getId();
+    }
+
+    @Test
+    public void cantAddPlayerToGameIfPlayerDoesntExist(){
+        testRestTemplate.put("/players/5/add",1L);
+//        Player player = playerRepository.getOne(5L);
+//        Long gameId = player.getGame().getId();
+//        assertNotEquals(2, gameId, 0.0);
+    }
+
+    @Test
+    public void canRemovePlayerFromGame(){
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/3/remove", String.class);
+        String message = response.getBody();
+        assertEquals("Player Bob with id 3 has been removed from game Roulette with game id 1.", message);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void cantRemovePlayerFromGameIfPlayerIsNotInGame(){
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/2/remove", String.class);
+        String message = response.getBody();
+        assertEquals("Player Imogen with id 2 is not in any game so cannot be removed.", message);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void cantRemovePlayerFromGameIfPlayerDoesNotExist(){
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/5/remove", String.class);
+        String message = response.getBody();
+        assertEquals("Player with id 5 does not exist.", message);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+
+
 }
