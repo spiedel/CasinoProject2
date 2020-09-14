@@ -15,7 +15,7 @@ import javax.persistence.*;
 // What does this mean??
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = ColourBet.class, name = "ColourBet")
+        @JsonSubTypes.Type(value = ColourBet.class, name = "ColourBet"), @JsonSubTypes.Type(value = NumberBet.class, name = "NumberBet")
 })
 public abstract class Bet {
 

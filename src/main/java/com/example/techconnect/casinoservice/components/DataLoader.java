@@ -4,6 +4,7 @@ import com.example.techconnect.casinoservice.models.bets.Bet;
 import com.example.techconnect.casinoservice.models.Game;
 import com.example.techconnect.casinoservice.models.Player;
 import com.example.techconnect.casinoservice.models.bets.ColourBet;
+import com.example.techconnect.casinoservice.models.bets.NumberBet;
 import com.example.techconnect.casinoservice.repositories.BetRepository;
 import com.example.techconnect.casinoservice.repositories.GameRepository;
 import com.example.techconnect.casinoservice.repositories.PlayerRepository;
@@ -35,6 +36,10 @@ public class DataLoader implements ApplicationRunner {
         Player player3 = new Player("Bob", 50, 100);
         playerRepository.save(player3);
 
+        Player playerNoBets = new Player("noBets", 30, 300);
+        playerRepository.save(playerNoBets);
+
+
         Game roulette = new Game("Roulette");
         gameRepository.save(roulette);
 
@@ -44,11 +49,19 @@ public class DataLoader implements ApplicationRunner {
         player3.setGame(roulette);
         playerRepository.save(player3);
 
+        playerNoBets.setGame(roulette);
+        playerRepository.save(playerNoBets);
+
+
+
         //Bet bet1 = new Bet(20, player1);
         //betRepository.save(bet1);
 
         ColourBet bet3 = new ColourBet("red", 20, player1);
         betRepository.save(bet3);
+
+        NumberBet bet4 = new NumberBet(20,player2,17);
+        betRepository.save(bet4);
 
 
     }

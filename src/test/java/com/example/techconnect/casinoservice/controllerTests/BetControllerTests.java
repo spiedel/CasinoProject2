@@ -5,6 +5,7 @@ import com.example.techconnect.casinoservice.enums.RouletteSetUp;
 import com.example.techconnect.casinoservice.models.Player;
 import com.example.techconnect.casinoservice.models.bets.Bet;
 import com.example.techconnect.casinoservice.models.bets.ColourBet;
+import com.example.techconnect.casinoservice.models.bets.NumberBet;
 import com.example.techconnect.casinoservice.repositories.BetRepository;
 import com.example.techconnect.casinoservice.repositories.GameRepository;
 import com.example.techconnect.casinoservice.repositories.PlayerRepository;
@@ -53,9 +54,9 @@ public class BetControllerTests {
 
     @Test
     public void cantGetBetsIfPlayerHasMadeNoBets(){
-        ResponseEntity<String> response = testRestTemplate.getForEntity("/roulette/1/players/3/bets", String.class);
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/roulette/1/players/4/bets", String.class);
         String message = response.getBody();
-        assertEquals("No bets made yet by player Bob with id 3 in this game.", message);
+        assertEquals("No bets made yet by player noBets with id 4 in this game.", message);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
@@ -77,6 +78,18 @@ public class BetControllerTests {
         Long betId = response.getBody().getId();
         Bet foundBet = betRepository.findById(betId).get();
         assertTrue(foundBet.isBetSuccessful(RouletteSetUp.Eighteen));
+    }
+
+    @Test
+    public void canPostNumberBet(){
+        NumberBet numberBet = new NumberBet();
+        numberBet.setNumber(20);
+        HttpEntity<Bet> requestPayLoad = new HttpEntity<>(numberBet);
+        ResponseEntity<Bet> response = testRestTemplate.postForEntity("/roulette/1/players/3/createbet", requestPayLoad, Bet.class);
+        assertEquals(201, response.getStatusCodeValue());
+        Long betId = response.getBody().getId();
+        Bet foundBet = betRepository.findById(betId).get();
+        assertTrue(foundBet.isBetSuccessful(RouletteSetUp.Twenty));
     }
 
 
