@@ -3,6 +3,8 @@ package com.example.techconnect.casinoservice.models.bets;
 import com.example.techconnect.casinoservice.enums.RouletteSetUp;
 import com.example.techconnect.casinoservice.models.Player;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.*;
 
@@ -10,6 +12,11 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "bet_type", discriminatorType = DiscriminatorType.STRING)
+// What does this mean??
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ColourBet.class, name = "ColourBet")
+})
 public abstract class Bet {
 
     @Id
