@@ -4,9 +4,11 @@ import com.example.techconnect.casinoservice.enums.RouletteSetUp;
 import com.example.techconnect.casinoservice.models.Player;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("colour")
 public class ColourBet extends Bet {
 
     @Column

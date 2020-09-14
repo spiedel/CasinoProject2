@@ -6,10 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
-@Entity
 @Table(name = "bets")
+@Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Bet {
+@DiscriminatorColumn(name = "bet_type", discriminatorType = DiscriminatorType.STRING)
+public abstract class Bet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +33,7 @@ public class Bet {
     }
 
     //methods
-    public Boolean isBetSuccessful(RouletteSetUp rouletteValue) {
-        return null;
-    }
+    public abstract Boolean isBetSuccessful(RouletteSetUp rouletteValue);
 
     //getters + setters
     public Long getId() {

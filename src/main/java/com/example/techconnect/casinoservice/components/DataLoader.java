@@ -38,7 +38,7 @@ public class DataLoader implements ApplicationRunner {
         //Bet bet1 = new Bet(20, player1);
         //betRepository.save(bet1);
 
-        Bet bet3 = new ColourBet("red", 20, player1);
+        ColourBet bet3 = new ColourBet("red", 20, player1);
         betRepository.save(bet3);
 
 

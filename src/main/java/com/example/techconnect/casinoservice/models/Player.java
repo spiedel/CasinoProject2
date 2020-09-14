@@ -2,6 +2,7 @@ package com.example.techconnect.casinoservice.models;
 
 import com.example.techconnect.casinoservice.models.bets.Bet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,6 +34,7 @@ public class Player {
 
     @OneToMany(mappedBy = "player")
     @JsonIgnoreProperties("player")
+    @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "className")
     private List<Bet> bets;
 
     public Player(String name, int age, double moneyInWallet) {
