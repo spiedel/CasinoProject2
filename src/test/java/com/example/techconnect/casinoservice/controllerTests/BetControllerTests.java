@@ -115,6 +115,18 @@ public class BetControllerTests extends AbstractJUnit4SpringContextTests {
         assertTrue(foundBet.isBetSuccessful(RouletteSetUp.Ten));
     }
 
+    @Test
+    public void canPostDozenBet(){
+        DozenBet dozenBet = new DozenBet();
+        dozenBet.setDozenBetOn(1);
+        HttpEntity<Bet> requestPayLoad = new HttpEntity<>(dozenBet);
+        ResponseEntity<Bet> response = testRestTemplate.postForEntity("/roulette/1/players/3/createbet", requestPayLoad, Bet.class);
+        assertEquals(201, response.getStatusCodeValue());
+        Long betId = response.getBody().getId();
+        Bet foundBet = betRepository.findById(betId).get();
+        assertTrue(foundBet.isBetSuccessful(RouletteSetUp.Ten));
+    }
+
 
 
 }

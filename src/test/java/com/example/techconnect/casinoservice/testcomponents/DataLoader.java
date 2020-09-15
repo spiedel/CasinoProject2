@@ -3,10 +3,7 @@ package com.example.techconnect.casinoservice.testcomponents;
 
 import com.example.techconnect.casinoservice.models.Game;
 import com.example.techconnect.casinoservice.models.Player;
-import com.example.techconnect.casinoservice.models.bets.ColourBet;
-import com.example.techconnect.casinoservice.models.bets.ColumnBet;
-import com.example.techconnect.casinoservice.models.bets.NumberBet;
-import com.example.techconnect.casinoservice.models.bets.OddEvenBet;
+import com.example.techconnect.casinoservice.models.bets.*;
 import com.example.techconnect.casinoservice.repositories.BetRepository;
 import com.example.techconnect.casinoservice.repositories.GameRepository;
 import com.example.techconnect.casinoservice.repositories.PlayerRepository;
@@ -84,6 +81,9 @@ public class DataLoader implements ApplicationRunner {
 
         ColumnBet bet6 = new ColumnBet(12, player2, 2);
         betRepository.save(bet6);
+
+        DozenBet bet7 = new DozenBet(12, player2, 3);
+        betRepository.save(bet7);
 
 
     }
