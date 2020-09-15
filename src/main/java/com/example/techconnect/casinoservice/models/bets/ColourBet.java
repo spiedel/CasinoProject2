@@ -2,13 +2,10 @@ package com.example.techconnect.casinoservice.models.bets;
 
 import com.example.techconnect.casinoservice.enums.RouletteSetUp;
 import com.example.techconnect.casinoservice.models.Player;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("colour")
@@ -19,7 +16,7 @@ public class ColourBet extends Bet {
     @Column
     private String colourBetOn;
 
-    public ColourBet(String colourBetOn, int amountBet, Player player) {
+    public ColourBet(int amountBet, Player player, String colourBetOn) {
         super(amountBet, player);
         this.colourBetOn = colourBetOn;
     }
