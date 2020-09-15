@@ -16,6 +16,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
@@ -29,6 +30,7 @@ import static org.junit.Assert.*;
         classes = {CasinoserviceApplication.class},
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
+@TestPropertySource(locations = "classpath:application-testing.properties")
 public class PlayerControllerTests {
     @Autowired
     TestRestTemplate testRestTemplate;

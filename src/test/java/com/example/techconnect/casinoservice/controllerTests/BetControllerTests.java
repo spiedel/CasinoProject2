@@ -10,6 +10,7 @@ import com.example.techconnect.casinoservice.models.bets.OddEvenBet;
 import com.example.techconnect.casinoservice.repositories.BetRepository;
 import com.example.techconnect.casinoservice.repositories.GameRepository;
 import com.example.techconnect.casinoservice.repositories.PlayerRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -28,6 +30,7 @@ import static org.junit.Assert.assertTrue;
         classes = {CasinoserviceApplication.class},
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
+@TestPropertySource(locations = "classpath:application-testing.properties")
 public class BetControllerTests {
 
     @Autowired
@@ -35,6 +38,7 @@ public class BetControllerTests {
 
     @Autowired
     BetRepository betRepository;
+    
 
     @Test
     public void canGetBetsIfPlayerExistsInGame(){
