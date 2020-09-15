@@ -2,6 +2,7 @@ package com.example.techconnect.casinoservice.controllerTests;
 
 
 import com.example.techconnect.casinoservice.CasinoserviceApplication;
+import com.example.techconnect.casinoservice.enums.RouletteSetUp;
 import com.example.techconnect.casinoservice.models.Game;
 import com.example.techconnect.casinoservice.models.Player;
 import com.example.techconnect.casinoservice.repositories.GameRepository;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -45,6 +47,13 @@ public class RouletteControllerTest {
         Game game = response.getBody();
         assertEquals("Roulette", game.getName());
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void canSpin() {
+        ResponseEntity<RouletteSetUp> response = testRestTemplate.getForEntity("/roulette/1/spin", RouletteSetUp.class);
+        RouletteSetUp result = response.getBody();
+        assertNotNull(result);
     }
 
     @Test

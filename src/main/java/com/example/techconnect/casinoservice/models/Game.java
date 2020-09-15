@@ -1,10 +1,12 @@
 package com.example.techconnect.casinoservice.models;
 
+import com.example.techconnect.casinoservice.enums.RouletteSetUp;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Entity
 @Table(name = "games")
@@ -21,6 +23,10 @@ public class Game {
     @JsonIgnoreProperties("game")
     private List<Player> players;
 
+    private ArrayList<RouletteSetUp> rouletteList;
+    private Random random;
+
+    //constructors
     public Game(String name) {
         this.name = name;
         this.players = new ArrayList<>();
@@ -29,6 +35,14 @@ public class Game {
     public Game() {
     }
 
+    //methods
+    public RouletteSetUp spin(Random random, ArrayList<RouletteSetUp> rouletteList) {
+        int index = random.nextInt(36);
+        return rouletteList.get(index);
+    }
+
+
+    //getters + setters
     public Long getId() {
         return id;
     }

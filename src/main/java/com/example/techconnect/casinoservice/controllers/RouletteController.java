@@ -1,5 +1,7 @@
 package com.example.techconnect.casinoservice.controllers;
 
+import com.example.techconnect.casinoservice.components.RouletteSpinSetup;
+import com.example.techconnect.casinoservice.enums.RouletteSetUp;
 import com.example.techconnect.casinoservice.models.Game;
 import com.example.techconnect.casinoservice.models.Player;
 import com.example.techconnect.casinoservice.repositories.GameRepository;
@@ -17,6 +19,9 @@ public class RouletteController {
     @Autowired
     GameRepository gameRepository;
 
+    @Autowired
+    RouletteSpinSetup rouletteSpinSetup;
+
     //INDEX roulette game
     @GetMapping(value = "/roulette")
     public ResponseEntity<List<Game>> getAllGameInformation() {
@@ -29,6 +34,18 @@ public class RouletteController {
         Optional<Game> game = gameRepository.findById(id);
         if (game.isPresent()) {
             return new ResponseEntity(game, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(String.format("Sorry the game with game id %d does not exist.", id), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // SPIN
+    @GetMapping(value = "/roulette/{id}/spin")
+    public ResponseEntity spin(@PathVariable Long id) {
+        Optional<Game> game = gameRepository.findById(id);
+        if (game.isPresent()) {
+            RouletteSetUp result = game.get().spin(rouletteSpinSetup.getRandom(), rouletteSpinSetup.getRouletteList());
+            return new ResponseEntity(result, HttpStatus.OK);
         } else {
             return new ResponseEntity(String.format("Sorry the game with game id %d does not exist.", id), HttpStatus.NOT_FOUND);
         }
