@@ -20,6 +20,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -31,7 +32,7 @@ import static org.junit.Assert.assertTrue;
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
 @TestPropertySource(locations = "classpath:application-testing.properties")
-public class BetControllerTests {
+public class BetControllerTests extends AbstractJUnit4SpringContextTests {
 
     @Autowired
     TestRestTemplate testRestTemplate;

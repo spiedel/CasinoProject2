@@ -17,6 +17,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,7 +32,7 @@ import static org.junit.Assert.*;
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
 @TestPropertySource(locations = "classpath:application-testing.properties")
-public class PlayerControllerTests {
+public class PlayerControllerTests extends AbstractJUnit4SpringContextTests {
     @Autowired
     TestRestTemplate testRestTemplate;
 
@@ -98,9 +99,9 @@ public class PlayerControllerTests {
 
     @Test
     public void canRemovePlayerFromGame(){
-        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/7/remove", String.class);
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/1/remove", String.class);
         String message = response.getBody();
-        assertEquals("Player PlayerToBeDeleted with id 7 has been removed from game Roulette with game id 1.", message);
+        assertEquals("Player Colin with id 1 has been removed from game Roulette with game id 1.", message);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

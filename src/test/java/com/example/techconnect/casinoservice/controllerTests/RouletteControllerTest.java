@@ -19,6 +19,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
@@ -30,7 +31,7 @@ import static org.junit.Assert.*;
 )
 @TestPropertySource(locations = "classpath:application-testing.properties")
 
-public class RouletteControllerTest {
+public class RouletteControllerTest extends AbstractJUnit4SpringContextTests {
 
     @Autowired
     TestRestTemplate testRestTemplate;
