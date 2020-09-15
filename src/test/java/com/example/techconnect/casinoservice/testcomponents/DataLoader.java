@@ -4,6 +4,7 @@ package com.example.techconnect.casinoservice.testcomponents;
 import com.example.techconnect.casinoservice.models.Game;
 import com.example.techconnect.casinoservice.models.Player;
 import com.example.techconnect.casinoservice.models.bets.ColourBet;
+import com.example.techconnect.casinoservice.models.bets.ColumnBet;
 import com.example.techconnect.casinoservice.models.bets.NumberBet;
 import com.example.techconnect.casinoservice.models.bets.OddEvenBet;
 import com.example.techconnect.casinoservice.repositories.BetRepository;
@@ -80,6 +81,9 @@ public class DataLoader implements ApplicationRunner {
 
         OddEvenBet bet5 = new OddEvenBet(25, player2, "odd");
         betRepository.save(bet5);
+
+        ColumnBet bet6 = new ColumnBet(12, player2, 2);
+        betRepository.save(bet6);
 
 
     }

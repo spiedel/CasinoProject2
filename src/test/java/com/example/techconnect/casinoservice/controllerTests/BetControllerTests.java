@@ -2,15 +2,8 @@ package com.example.techconnect.casinoservice.controllerTests;
 
 import com.example.techconnect.casinoservice.CasinoserviceApplication;
 import com.example.techconnect.casinoservice.enums.RouletteSetUp;
-import com.example.techconnect.casinoservice.models.Player;
-import com.example.techconnect.casinoservice.models.bets.Bet;
-import com.example.techconnect.casinoservice.models.bets.ColourBet;
-import com.example.techconnect.casinoservice.models.bets.NumberBet;
-import com.example.techconnect.casinoservice.models.bets.OddEvenBet;
+import com.example.techconnect.casinoservice.models.bets.*;
 import com.example.techconnect.casinoservice.repositories.BetRepository;
-import com.example.techconnect.casinoservice.repositories.GameRepository;
-import com.example.techconnect.casinoservice.repositories.PlayerRepository;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,6 +101,18 @@ public class BetControllerTests extends AbstractJUnit4SpringContextTests {
         Long betId = response.getBody().getId();
         Bet foundBet = betRepository.findById(betId).get();
         assertTrue(foundBet.isBetSuccessful(RouletteSetUp.Twenty));
+    }
+
+    @Test
+    public void canPostColumnBet(){
+        ColumnBet columnBet = new ColumnBet();
+        columnBet.setColumnBetOn(1);
+        HttpEntity<Bet> requestPayLoad = new HttpEntity<>(columnBet);
+        ResponseEntity<Bet> response = testRestTemplate.postForEntity("/roulette/1/players/3/createbet", requestPayLoad, Bet.class);
+        assertEquals(201, response.getStatusCodeValue());
+        Long betId = response.getBody().getId();
+        Bet foundBet = betRepository.findById(betId).get();
+        assertTrue(foundBet.isBetSuccessful(RouletteSetUp.Ten));
     }
 
 

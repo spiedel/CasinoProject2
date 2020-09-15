@@ -18,7 +18,8 @@ import javax.persistence.*;
         @JsonSubTypes.Type(value = ColourBet.class, name = "ColourBet"),
         @JsonSubTypes.Type(value = NumberBet.class, name = "NumberBet"),
         @JsonSubTypes.Type(value = OddEvenBet.class, name = "OddEvenBet"),
-        @JsonSubTypes.Type(value = HighLowBet.class, name = "HighLowBet")
+        @JsonSubTypes.Type(value = HighLowBet.class, name = "HighLowBet"),
+        @JsonSubTypes.Type(value = ColumnBet.class, name = "ColumnBet")
 })
 public abstract class Bet {
 
