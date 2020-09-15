@@ -1,4 +1,5 @@
-package com.example.techconnect.casinoservice.components;
+package com.example.techconnect.casinoservice.testcomponents;
+
 
 import com.example.techconnect.casinoservice.models.Game;
 import com.example.techconnect.casinoservice.models.Player;
