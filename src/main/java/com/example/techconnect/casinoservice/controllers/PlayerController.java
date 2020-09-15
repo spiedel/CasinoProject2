@@ -40,6 +40,44 @@ public class PlayerController {
         return new ResponseEntity("This game does not exist.", HttpStatus.NOT_FOUND);
     }
 
+    // Buy chips for player
+    @GetMapping(value="/players/{id}/buy")
+    public ResponseEntity buyChipsForPlayer(@PathVariable Long id, @RequestParam (name = "amount", required = true) int amountOfMoney ){
+        Optional<Player> player = playerRepository.findById(id);
+        if ( player.isPresent() ) {
+            double moneyInWallet = player.get().getMoneyInWallet();
+            int numberOfChips = player.get().getNumberOfChips();
+            if (moneyInWallet >= amountOfMoney){
+                player.get().setNumberOfChips((amountOfMoney * 5) + numberOfChips);
+                player.get().setMoneyInWallet(moneyInWallet - amountOfMoney);
+                playerRepository.save(player.get());
+                return new ResponseEntity(String.format("Player %s with id %d has bought %d chips and now has £%.0f money in wallet.", player.get().getName(), id, player.get().getNumberOfChips(), player.get().getMoneyInWallet()), HttpStatus.OK);
+            } else {
+                return new ResponseEntity(String.format("Player %s with id %d does not have enough money to buy chips. Player has £%.0f money in wallet.", player.get().getName(), id, player.get().getMoneyInWallet()), HttpStatus.BAD_REQUEST);
+            }
+        }
+        return new ResponseEntity(String.format("Player with id %d does not exist.", id), HttpStatus.NOT_FOUND);
+    }
+
+    // Cash in chips for player
+    @GetMapping(value="/players/{id}/cashin")
+    public ResponseEntity cashInChipsForPlayer(@PathVariable Long id){
+        Optional<Player> player = playerRepository.findById(id);
+        if ( player.isPresent() ) {
+            double moneyInWallet = player.get().getMoneyInWallet();
+            int numberOfChips = player.get().getNumberOfChips();
+            if (numberOfChips > 0){
+                player.get().setNumberOfChips(0);
+                player.get().setMoneyInWallet(moneyInWallet + (numberOfChips / 5));
+                playerRepository.save(player.get());
+                return new ResponseEntity(String.format("Player %s with id %d has cashed in all %d chips and now has £%.0f money in wallet.", player.get().getName(), id, numberOfChips, player.get().getMoneyInWallet()), HttpStatus.OK);
+            } else {
+                return new ResponseEntity(String.format("Player %s with id %d does not have any chips to cash in.", player.get().getName(), id), HttpStatus.BAD_REQUEST);
+            }
+        }
+        return new ResponseEntity(String.format("Player with id %d does not exist.", id), HttpStatus.NOT_FOUND);
+    }
+
 
     //SHOW one player
     @GetMapping(value = "/players/{id}")

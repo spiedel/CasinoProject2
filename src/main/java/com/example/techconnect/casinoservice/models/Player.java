@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Scanner;
 
 @Entity
 @Table(name = "players")
@@ -101,4 +102,5 @@ public class Player {
     public void setBets(List<Bet> bets) {
         this.bets = bets;
     }
+
 }

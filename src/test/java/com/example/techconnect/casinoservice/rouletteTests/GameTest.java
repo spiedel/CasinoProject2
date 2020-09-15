@@ -27,6 +27,6 @@ public class GameTest {
             rouletteList.add(rouletteSetUp);
         }
 
-        assertEquals(RouletteSetUp.Eighteen,game.spin(random, rouletteList));
+        assertEquals(RouletteSetUp.Fifteen,game.spin(random, rouletteList));
     }
 }

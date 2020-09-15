@@ -104,20 +104,73 @@ public class PlayerControllerTests {
 
     @Test
     public void cantRemovePlayerFromGameIfPlayerIsNotInGame(){
-        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/2/remove", String.class);
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/5/remove", String.class);
         String message = response.getBody();
-        assertEquals("Player Imogen with id 2 is not in any game so cannot be removed.", message);
+        assertEquals("Player noGame with id 5 is not in any game so cannot be removed.", message);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
     public void cantRemovePlayerFromGameIfPlayerDoesNotExist(){
-        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/5/remove", String.class);
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/5000/remove", String.class);
         String message = response.getBody();
-        assertEquals("Player with id 5 does not exist.", message);
+        assertEquals("Player with id 5000 does not exist.", message);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    @Test
+    public void canBuyChipsIfPlayerHasEnoughMoney(){
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/1/buy?amount=10", String.class);
+        String message = response.getBody();
+        assertEquals("Player Colin with id 1 has bought 50 chips and now has £90 money in wallet.", message);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void cantBuyChipsIfPlayerHasntGotEnoughMoney(){
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/2/buy?amount=1000", String.class);
+        String message = response.getBody();
+        assertEquals("Player Imogen with id 2 does not have enough money to buy chips. Player has £100 money in wallet.", message);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void cantBuyChipsIfPlayerDoesntExist(){
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/5000/buy?amount=10", String.class);
+        String message = response.getBody();
+        assertEquals("Player with id 5000 does not exist.", message);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void canCashInChipsIfPlayerHasChips(){
+        // Given Player Has Chips
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/2/buy?amount=10", String.class);
+        String message = response.getBody();
+        assertEquals("Player Imogen with id 2 has bought 50 chips and now has £90 money in wallet.", message);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        // Then player can cash in chips
+        ResponseEntity<String> response2 = testRestTemplate.getForEntity("/players/2/cashin", String.class);
+        String message2 = response2.getBody();
+        assertEquals("Player Imogen with id 2 has cashed in all 50 chips and now has £100 money in wallet.", message2);
+        assertEquals(HttpStatus.OK, response2.getStatusCode());
+    }
+
+    @Test
+    public void cantCashInChipsIfPlayerHasNoChips(){
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/6/cashin", String.class);
+        String message = response.getBody();
+        assertEquals("Player noChips with id 6 does not have any chips to cash in.", message);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void cantCashInChipsIfPlayerDoesntExist(){
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/5000/cashin", String.class);
+        String message = response.getBody();
+        assertEquals("Player with id 5000 does not exist.", message);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
 
 
 }

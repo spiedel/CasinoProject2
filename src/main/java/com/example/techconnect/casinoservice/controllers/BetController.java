@@ -51,9 +51,13 @@ public class BetController {
         if (gameRepository.findById(gameId).isPresent()) {
             Optional<Player> player = playerRepository.findById(playerId);
             if (player.isPresent() && playerRepository.findAllPlayersByGameId(gameId).contains(player.get())) {
-                bet.setPlayer(player.get());
-                betRepository.save(bet);
-                return new ResponseEntity<>(bet, HttpStatus.CREATED);
+                if(player.get().getNumberOfChips() > bet.getAmountBet()) {
+                    bet.setPlayer(player.get());
+                    betRepository.save(bet);
+                    return new ResponseEntity<>(bet, HttpStatus.CREATED);
+                } else {
+                    return new ResponseEntity(String.format("Player %s with id %d does not have enough chips to bet in this game.", playerRepository.getOne(playerId).getName(), playerId), HttpStatus.BAD_REQUEST);
+                }
             } else {
                     return new ResponseEntity(String.format("This player with id %d does not exist in this game.", playerId), HttpStatus.NOT_FOUND);
                 }

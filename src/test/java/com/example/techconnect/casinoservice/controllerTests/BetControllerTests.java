@@ -6,6 +6,7 @@ import com.example.techconnect.casinoservice.models.Player;
 import com.example.techconnect.casinoservice.models.bets.Bet;
 import com.example.techconnect.casinoservice.models.bets.ColourBet;
 import com.example.techconnect.casinoservice.models.bets.NumberBet;
+import com.example.techconnect.casinoservice.models.bets.OddEvenBet;
 import com.example.techconnect.casinoservice.repositories.BetRepository;
 import com.example.techconnect.casinoservice.repositories.GameRepository;
 import com.example.techconnect.casinoservice.repositories.PlayerRepository;
@@ -85,6 +86,18 @@ public class BetControllerTests {
         NumberBet numberBet = new NumberBet();
         numberBet.setNumber(20);
         HttpEntity<Bet> requestPayLoad = new HttpEntity<>(numberBet);
+        ResponseEntity<Bet> response = testRestTemplate.postForEntity("/roulette/1/players/3/createbet", requestPayLoad, Bet.class);
+        assertEquals(201, response.getStatusCodeValue());
+        Long betId = response.getBody().getId();
+        Bet foundBet = betRepository.findById(betId).get();
+        assertTrue(foundBet.isBetSuccessful(RouletteSetUp.Twenty));
+    }
+
+    @Test
+    public void canPostOddEvenBet(){
+        OddEvenBet oddEvenBet = new OddEvenBet();
+        oddEvenBet.setOddOrEven("even");
+        HttpEntity<Bet> requestPayLoad = new HttpEntity<>(oddEvenBet);
         ResponseEntity<Bet> response = testRestTemplate.postForEntity("/roulette/1/players/3/createbet", requestPayLoad, Bet.class);
         assertEquals(201, response.getStatusCodeValue());
         Long betId = response.getBody().getId();
