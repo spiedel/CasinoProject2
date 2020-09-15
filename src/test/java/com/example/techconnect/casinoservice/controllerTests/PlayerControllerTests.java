@@ -96,9 +96,9 @@ public class PlayerControllerTests {
 
     @Test
     public void canRemovePlayerFromGame(){
-        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/3/remove", String.class);
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/players/7/remove", String.class);
         String message = response.getBody();
-        assertEquals("Player Bob with id 3 has been removed from game Roulette with game id 1.", message);
+        assertEquals("Player PlayerToBeDeleted with id 7 has been removed from game Roulette with game id 1.", message);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

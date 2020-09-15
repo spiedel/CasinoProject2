@@ -47,6 +47,8 @@ public class DataLoader implements ApplicationRunner {
         playerRepository.save(playerNoChips);
 
 
+
+
         Game roulette = new Game("Roulette");
         gameRepository.save(roulette);
 
@@ -58,6 +60,11 @@ public class DataLoader implements ApplicationRunner {
 
         playerNoBets.setGame(roulette);
         playerRepository.save(playerNoBets);
+
+
+        Player playerToBeDeleted = new Player("PlayerToBeDeleted", 40, 20);
+        playerToBeDeleted.setGame(roulette);
+        playerRepository.save(playerToBeDeleted);
 
 
 

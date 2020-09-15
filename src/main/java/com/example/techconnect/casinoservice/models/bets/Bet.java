@@ -31,7 +31,7 @@ public abstract class Bet {
 
     @ManyToOne
     @JoinColumn(name = "player_id")
-    @JsonIgnoreProperties("bets")
+    @JsonIgnoreProperties(value = "bets" ,allowSetters = true)
     private Player player;
 
     public Bet(int amountBet, Player player) {

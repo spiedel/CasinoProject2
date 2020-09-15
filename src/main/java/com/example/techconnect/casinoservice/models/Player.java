@@ -30,11 +30,11 @@ public class Player {
 
     @ManyToOne
     @JoinColumn(name = "game_id", nullable = true)
-    @JsonIgnoreProperties("players")
+    @JsonIgnoreProperties(value = "players", allowSetters = true)
     private Game game;
 
     @OneToMany(mappedBy = "player")
-    @JsonIgnoreProperties("player")
+    @JsonIgnoreProperties(value = "player", allowSetters = true)
     @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "className")
     private List<Bet> bets;
 
