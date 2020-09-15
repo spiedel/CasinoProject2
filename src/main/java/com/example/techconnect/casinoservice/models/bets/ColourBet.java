@@ -52,4 +52,8 @@ public class ColourBet extends Bet {
         //is colour from game the same as the colour the person bet on.
 
     }
+
+    public int getReturn() {
+        return getAmountBet();
+    }
 }

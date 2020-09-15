@@ -44,6 +44,8 @@ public abstract class Bet {
     //methods
     public abstract Boolean isBetSuccessful(RouletteSetUp rouletteValue);
 
+    public abstract int getReturn();
+
     //getters + setters
     public Long getId() {
         return id;

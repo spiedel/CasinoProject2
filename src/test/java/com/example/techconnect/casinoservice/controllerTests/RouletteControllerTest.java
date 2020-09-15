@@ -5,6 +5,10 @@ import com.example.techconnect.casinoservice.CasinoserviceApplication;
 import com.example.techconnect.casinoservice.enums.RouletteSetUp;
 import com.example.techconnect.casinoservice.models.Game;
 import com.example.techconnect.casinoservice.models.Player;
+import com.example.techconnect.casinoservice.models.bets.Bet;
+import com.example.techconnect.casinoservice.models.bets.NumberBet;
+import com.example.techconnect.casinoservice.payloads.GameSummary;
+import com.example.techconnect.casinoservice.repositories.BetRepository;
 import com.example.techconnect.casinoservice.repositories.GameRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -32,6 +35,9 @@ public class RouletteControllerTest {
 
     @Autowired
     GameRepository gameRepository;
+
+    @Autowired
+    BetRepository betRepository;
 
     @Test
     public void canGetAllGames() {
@@ -51,8 +57,16 @@ public class RouletteControllerTest {
 
     @Test
     public void canSpin() {
-        ResponseEntity<RouletteSetUp> response = testRestTemplate.getForEntity("/roulette/1/spin", RouletteSetUp.class);
-        RouletteSetUp result = response.getBody();
+        NumberBet numberBet = new NumberBet();
+        numberBet.setNumber(20);
+        HttpEntity<Bet> requestPayLoad = new HttpEntity<>(numberBet);
+        ResponseEntity<Bet> response = testRestTemplate.postForEntity("/roulette/1/players/3/createbet", requestPayLoad, Bet.class);
+        assertEquals(201, response.getStatusCodeValue());
+        Long betId = response.getBody().getId();
+        Bet foundBet = betRepository.findById(betId).get();
+        assertTrue(foundBet.isBetSuccessful(RouletteSetUp.Twenty));
+        ResponseEntity<GameSummary> response2 = testRestTemplate.getForEntity("/roulette/1/spin", GameSummary.class);
+        GameSummary result = response2.getBody();
         assertNotNull(result);
     }
 

@@ -38,6 +38,10 @@ public class NumberBet extends Bet {
         }
     }
 
+    public int getReturn() {
+        return getAmountBet() * 35;
+    }
+
     //Getters and Setter
     public int getNumber() {
         return number;

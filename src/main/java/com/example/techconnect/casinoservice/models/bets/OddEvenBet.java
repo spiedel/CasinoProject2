@@ -32,6 +32,11 @@ public class OddEvenBet extends Bet {
         }
     }
 
+
+    public int getReturn() {
+        return getAmountBet();
+    }
+
     private boolean testEven(RouletteSetUp rouletteValue) {
         return rouletteValue.getValue()%2 ==0;
     }
