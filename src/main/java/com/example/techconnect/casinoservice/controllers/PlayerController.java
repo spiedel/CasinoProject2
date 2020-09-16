@@ -54,7 +54,7 @@ public class PlayerController {
             if (moneyInWallet >= amountOfMoney){
 
                 //Get Chip Value from Client
-                player.get().setNumberOfChips((amountOfMoney * chipClient.requestChipValue(amountOfMoney)) + numberOfChips);
+                player.get().setNumberOfChips((int) ((amountOfMoney * chipClient.requestBuyValue(amountOfMoney)) + numberOfChips));
                 player.get().setMoneyInWallet(moneyInWallet - amountOfMoney);
                 playerRepository.save(player.get());
                 return new ResponseEntity(String.format("Player %s with id %d has bought %d chips and now has £%.0f money in wallet.", player.get().getName(), id, player.get().getNumberOfChips(), player.get().getMoneyInWallet()), HttpStatus.OK);
@@ -74,7 +74,7 @@ public class PlayerController {
             int numberOfChips = player.get().getNumberOfChips();
             if (numberOfChips > 0){
                 player.get().setNumberOfChips(0);
-                player.get().setMoneyInWallet(moneyInWallet + (numberOfChips / 5));
+                player.get().setMoneyInWallet(moneyInWallet + (numberOfChips / chipClient.requestSellValue()));
                 playerRepository.save(player.get());
                 return new ResponseEntity(String.format("Player %s with id %d has cashed in all %d chips and now has £%.0f money in wallet.", player.get().getName(), id, numberOfChips, player.get().getMoneyInWallet()), HttpStatus.OK);
             } else {
