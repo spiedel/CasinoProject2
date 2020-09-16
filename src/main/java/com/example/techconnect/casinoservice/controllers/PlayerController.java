@@ -1,5 +1,6 @@
 package com.example.techconnect.casinoservice.controllers;
 
+import com.example.techconnect.casinoservice.components.ChipClient;
 import com.example.techconnect.casinoservice.models.Game;
 import com.example.techconnect.casinoservice.models.Player;
 import com.example.techconnect.casinoservice.repositories.GameRepository;
@@ -20,6 +21,9 @@ public class PlayerController {
 
     @Autowired
     GameRepository gameRepository;
+
+    @Autowired
+    ChipClient chipClient;
 
     //INDEX all players
     @GetMapping(value = "/players")
@@ -48,7 +52,9 @@ public class PlayerController {
             double moneyInWallet = player.get().getMoneyInWallet();
             int numberOfChips = player.get().getNumberOfChips();
             if (moneyInWallet >= amountOfMoney){
-                player.get().setNumberOfChips((amountOfMoney * 5) + numberOfChips);
+
+                //Get Chip Value from Client
+                player.get().setNumberOfChips((amountOfMoney * chipClient.requestChipValue()) + numberOfChips);
                 player.get().setMoneyInWallet(moneyInWallet - amountOfMoney);
                 playerRepository.save(player.get());
                 return new ResponseEntity(String.format("Player %s with id %d has bought %d chips and now has £%.0f money in wallet.", player.get().getName(), id, player.get().getNumberOfChips(), player.get().getMoneyInWallet()), HttpStatus.OK);
