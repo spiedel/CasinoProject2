@@ -23,8 +23,8 @@ public class Game {
     @JsonIgnoreProperties(value = "game", allowSetters = true)
     private List<Player> players;
 
-    private ArrayList<RouletteSetUp> rouletteList;
-    private Random random;
+//    private ArrayList<RouletteSetUp> rouletteList;
+//    private Random random;
 
     //constructors
     public Game(String name) {

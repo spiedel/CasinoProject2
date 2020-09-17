@@ -4688,3 +4688,38 @@ Caused by: java.nio.channels.OverlappingFileLockException
 	at java.base/java.nio.channels.FileChannel.tryLock(FileChannel.java:1178)
 	at org.h2.mvstore.FileStore.open(FileStore.java:163)
 	... 28 more
+2020-09-17 14:27:33 jdbc[56]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM BETS 
+INNER JOIN ON[*] PLAYERS
+WHERE PLAYERS.ID = BETS.PLAYER_ID"; expected "identifier"; SQL statement:
+SELECT * FROM BETS 
+inner join on players
+where players.id = bets.player_id [42001-200]
+2020-09-17 14:27:55 jdbc[56]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM BETS 
+INNER JOIN ON[*] PLAYERS. NAME
+WHERE PLAYERS.ID = BETS.PLAYER_ID"; expected "identifier"; SQL statement:
+SELECT * FROM BETS 
+inner join on players. name
+where players.id = bets.player_id [42001-200]
+2020-09-17 14:27:58 jdbc[56]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM BETS 
+INNER JOIN ON[*] PLAYERS
+WHERE PLAYERS.ID = BETS.PLAYER_ID"; expected "identifier"; SQL statement:
+SELECT * FROM BETS 
+inner join on players
+where players.id = bets.player_id [42001-200]
+2020-09-17 14:28:11 jdbc[56]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM BETS 
+OUTER JOIN ON[*] PLAYERS
+WHERE PLAYERS.ID = BETS.PLAYER_ID"; expected "identifier"; SQL statement:
+SELECT * FROM BETS 
+outer join on players
+where players.id = bets.player_id [42001-200]
+2020-09-17 14:28:14 jdbc[56]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM BETS 
+INNER JOIN ON[*] PLAYERS
+WHERE PLAYERS.ID = BETS.PLAYER_ID"; expected "identifier"; SQL statement:
+SELECT * FROM BETS 
+inner join on players
+where players.id = bets.player_id [42001-200]
