@@ -35,7 +35,7 @@ public class Player {
 
     @OneToMany(mappedBy = "player")
     @JsonIgnoreProperties(value = "player", allowSetters = true)
-    @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "className")
+    //@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "className")
     private List<Bet> bets;
 
     public Player(String name, int age, double moneyInWallet) {

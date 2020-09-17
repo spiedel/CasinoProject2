@@ -78,6 +78,10 @@ public class BetController {
             return new ResponseEntity(String.format("This game with id %d does not exist.", gameId), HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping(value="/bets")
+    public ResponseEntity<List<Bet>> getAllBets() {
+        return new ResponseEntity<>(betRepository.findAll(), HttpStatus.OK);
+    }
 }
 
 

@@ -2,6 +2,7 @@ package com.example.techconnect.casinoservice.controllerTests;
 
 import com.example.techconnect.casinoservice.CasinoserviceApplication;
 import com.example.techconnect.casinoservice.enums.RouletteSetUp;
+import com.example.techconnect.casinoservice.models.Player;
 import com.example.techconnect.casinoservice.models.bets.*;
 import com.example.techconnect.casinoservice.repositories.BetRepository;
 import org.junit.Test;
@@ -149,5 +150,13 @@ public class BetControllerTests extends AbstractJUnit4SpringContextTests {
         String message = response.getBody();
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("No bets made yet in this game.",message);
+    }
+
+    @Test
+    public void canGetAllBets() {
+        ResponseEntity<Bet[]> response = testRestTemplate.getForEntity("/bets", Bet[].class);
+        Bet[] bets = response.getBody();
+        assertEquals(20, bets[0].getAmountBet());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }
