@@ -10,4 +10,6 @@ import java.util.List;
 public interface BetRepository extends JpaRepository<Bet, Long> {
 
     List<Bet> findAllBetsByPlayerIdAndPlayerGameId(long playerId, long gameId);
+
+    List<Bet> findAllBetsByPlayerGameId(long gameId);
 }

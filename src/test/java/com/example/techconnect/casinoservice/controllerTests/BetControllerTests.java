@@ -61,9 +61,9 @@ public class BetControllerTests extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void cantGetBetsIfGameDoesntExist(){
-        ResponseEntity<String> response = testRestTemplate.getForEntity("/roulette/2/players/1/bets", String.class);
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/roulette/3/players/1/bets", String.class);
         String message = response.getBody();
-        assertEquals("This game with id 2 does not exist.", message);
+        assertEquals("This game with id 3 does not exist.", message);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
@@ -126,7 +126,28 @@ public class BetControllerTests extends AbstractJUnit4SpringContextTests {
         Bet foundBet = betRepository.findById(betId).get();
         assertTrue(foundBet.isBetSuccessful(RouletteSetUp.Ten));
     }
+    @Test
+    public void canGetBetsIfGameExists(){
+        ResponseEntity<Bet[]> response = testRestTemplate.getForEntity("/roulette/1/bets", Bet[].class);
+        Bet[] bets = response.getBody();
+        assertTrue(bets[0].isBetSuccessful(RouletteSetUp.Eighteen));
+        assertEquals(20, bets[0].getAmountBet());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 
+    @Test
+    public void canGetBetsIfGameDoesNotExists(){
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/roulette/20/bets", String.class);
+        String message = response.getBody();
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("This game with id 20 does not exist.", message);
+    }
 
-
+    @Test
+    public void cantGetBetsIfGameExistsButNoBetsMade(){
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/roulette/2/bets", String.class);
+        String message = response.getBody();
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("No bets made yet in this game.",message);
+    }
 }

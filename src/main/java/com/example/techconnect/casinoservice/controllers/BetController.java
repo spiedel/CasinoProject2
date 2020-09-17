@@ -26,7 +26,7 @@ public class BetController {
     PlayerRepository playerRepository;
 
     // INDEX all players bets in roulette game
-    @GetMapping(value="/roulette/{gameId}/players/{playerId}/bets")
+    @GetMapping(value = "/roulette/{gameId}/players/{playerId}/bets")
     public ResponseEntity getAllBetsByPlayerIdAndGameId(@PathVariable Long gameId, @PathVariable Long playerId) {
         if (gameRepository.findById(gameId).isPresent()) {
             Optional<Player> player = playerRepository.findById(playerId);
@@ -41,8 +41,8 @@ public class BetController {
                 return new ResponseEntity(String.format("This player with id %d does not exist in this game.", playerId), HttpStatus.NOT_FOUND);
             }
         }
-            return new ResponseEntity(String.format("This game with id %d does not exist.", gameId), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity(String.format("This game with id %d does not exist.", gameId), HttpStatus.NOT_FOUND);
+    }
 
 
     // CREATE bet
@@ -51,7 +51,7 @@ public class BetController {
         if (gameRepository.findById(gameId).isPresent()) {
             Optional<Player> player = playerRepository.findById(playerId);
             if (player.isPresent() && playerRepository.findAllPlayersByGameId(gameId).contains(player.get())) {
-                if(player.get().getNumberOfChips() > bet.getAmountBet()) {
+                if (player.get().getNumberOfChips() > bet.getAmountBet()) {
                     bet.setPlayer(player.get());
                     betRepository.save(bet);
                     return new ResponseEntity<>(bet, HttpStatus.CREATED);
@@ -59,9 +59,25 @@ public class BetController {
                     return new ResponseEntity(String.format("Player %s with id %d does not have enough chips to bet in this game.", playerRepository.getOne(playerId).getName(), playerId), HttpStatus.BAD_REQUEST);
                 }
             } else {
-                    return new ResponseEntity(String.format("This player with id %d does not exist in this game.", playerId), HttpStatus.NOT_FOUND);
-                }
+                return new ResponseEntity(String.format("This player with id %d does not exist in this game.", playerId), HttpStatus.NOT_FOUND);
             }
+        }
+        return new ResponseEntity(String.format("This game with id %d does not exist.", gameId), HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/roulette/{gameId}/bets")
+    public ResponseEntity getAllBetsByGameId(@PathVariable Long gameId) {
+        if (gameRepository.findById(gameId).isPresent()) {
+            List<Bet> foundBets = betRepository.findAllBetsByPlayerGameId(gameId);
+            if (!foundBets.isEmpty()) {
+                return new ResponseEntity(foundBets, HttpStatus.OK);
+            } else {
+                return new ResponseEntity("No bets made yet in this game.", HttpStatus.NOT_FOUND);
+            }
+        } else {
             return new ResponseEntity(String.format("This game with id %d does not exist.", gameId), HttpStatus.NOT_FOUND);
         }
+    }
 }
+
+

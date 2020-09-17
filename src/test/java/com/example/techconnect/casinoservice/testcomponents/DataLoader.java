@@ -51,6 +51,11 @@ public class DataLoader implements ApplicationRunner {
         Game roulette = new Game("Roulette");
         gameRepository.save(roulette);
 
+        Game roulette2 = new Game("Roulette2");
+        gameRepository.save(roulette2);
+
+
+
         player1.setGame(roulette);
         playerRepository.save(player1);
 
