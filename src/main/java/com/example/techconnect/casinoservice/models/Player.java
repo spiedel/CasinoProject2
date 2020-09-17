@@ -47,6 +47,16 @@ public class Player {
     public Player() {
     }
 
+    //methods
+    public int getValueAllBets() {
+        int total = 0;
+        for (Bet bet: this.bets) {
+            total += bet.getAmountBet();
+        }
+        return total;
+    }
+
+    //getters and setters
     public Long getId() {
         return id;
     }

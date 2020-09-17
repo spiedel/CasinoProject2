@@ -51,7 +51,7 @@ public class BetController {
         if (gameRepository.findById(gameId).isPresent()) {
             Optional<Player> player = playerRepository.findById(playerId);
             if (player.isPresent() && playerRepository.findAllPlayersByGameId(gameId).contains(player.get())) {
-                if (player.get().getNumberOfChips() > bet.getAmountBet()) {
+                if ((player.get().getNumberOfChips()-player.get().getValueAllBets()) >= bet.getAmountBet()) {
                     bet.setPlayer(player.get());
                     betRepository.save(bet);
                     return new ResponseEntity<>(bet, HttpStatus.CREATED);

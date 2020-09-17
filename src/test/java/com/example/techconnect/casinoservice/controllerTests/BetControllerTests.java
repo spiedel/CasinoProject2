@@ -69,6 +69,25 @@ public class BetControllerTests extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
+    public void cantPostBetsGreaterThanMoney(){
+        ColourBet colourBet = new ColourBet();
+        colourBet.setColourBetOn("red");
+        colourBet.setAmountBet(9000);
+
+
+        HttpEntity<Bet> requestPayLoad = new HttpEntity<>(colourBet);
+        ResponseEntity<Bet> response = testRestTemplate.postForEntity("/roulette/1/players/3/createbet", requestPayLoad, Bet.class);
+        assertEquals(201, response.getStatusCodeValue());
+        Long betId = response.getBody().getId();
+        Bet foundBet = betRepository.findById(betId).get();
+        assertTrue(foundBet.isBetSuccessful(RouletteSetUp.Eighteen));
+
+        ResponseEntity<String> response2 = testRestTemplate.postForEntity("/roulette/1/players/3/createbet", requestPayLoad, String.class);
+        assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
+        assertEquals("Player Bob with id 3 does not have enough chips to bet in this game.", response2.getBody());
+    }
+
+    @Test
     public void canPostColourBet(){
         ColourBet colourBet = new ColourBet();
         colourBet.setColourBetOn("red");
